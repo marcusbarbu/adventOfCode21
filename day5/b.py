@@ -43,7 +43,7 @@ for line in all_lines:
         start_col = d
         end_col = b
 
-    print(f'line: {start_row}:{start_col} -> {end_row}:{end_col}')
+    # print(f'line: {start_row}:{start_col} -> {end_row}:{end_col}')
     if start_row == end_row:
         row_path = [start_row] * (end_col+1 - start_col)
         col_path = range(start_col, end_col+1)
@@ -63,13 +63,13 @@ for line in all_lines:
 
         col_path = range(start_col, end_col+1, col_step)
         row_path = range(start_row, end_row+1, row_step)
-        print(f'diag path row: {row_path}:{list(row_path)} col: {col_path}:{list(col_path)}')
+        # print(f'diag path row: {row_path}:{list(row_path)} col: {col_path}:{list(col_path)}')
 
     path = zip(row_path, col_path)
-    cpath = copy.deepcopy(path)
-    print(f"line {line} path: {list(cpath)}")
+    # cpath = copy.deepcopy(path)
+    # print(f"line {line} path: {list(cpath)}")
     for r, c in path:
-        print(f'{r}:{c}')
+        # print(f'{r}:{c}')
         hits[(r,c)] += 1
         # print(hits)
 
