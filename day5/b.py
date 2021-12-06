@@ -1,6 +1,6 @@
 import re
 from collections import defaultdict
-import copy
+import matplotlib.pyplot as plt
 
 test_input = '''0,9 -> 5,9
 8,0 -> 0,8
@@ -25,13 +25,13 @@ def parse_input(input_str):
     return out, cur_max
 
 all_lines, max_val = parse_input(test_input)
-all_lines, max_val = parse_input(open('input','r').read())
+# all_lines, max_val = parse_input(open('input','r').read())
 
 hits = defaultdict(int)
 
 for line in all_lines:
     (a, b), (c, d) = line
-
+    plt.plot([a,c], [b,d])
     if a < c or b < d:
         start_row = a
         end_row = c
@@ -75,7 +75,14 @@ for line in all_lines:
 
 
 count = 0
+x_points = []
+y_points = []
 for k, v in hits.items():
     if v >= 2:
         count += 1
+    x_points.append(k[1])
+    y_points.append(k[0])
+    # plt.plot(k[0], k[1])
 print(f"count: {count}")
+# plt.plot(x_points, y_points)
+plt.show()
