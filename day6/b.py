@@ -1,3 +1,4 @@
+import time
 import copy
 from collections import defaultdict
 test_input = '''3,4,3,1,2'''
@@ -21,8 +22,11 @@ for f in fish:
     fish_dict[f] += 1
 
 for i in range(256):
-    print(f"Day {i}: {fish_dict}")
+    # print(f"Day {i}: {fish_dict}")
     # print(f'Total fish: {sum(fish_dict.values())}')
+    a = time.perf_counter()
     fish_dict = step_fish_dict(fish_dict)
+    b = time.perf_counter()
+    print(f'Step {i}: {b-a}')
 
 print(f'Total fish: {sum(fish_dict.values())}')

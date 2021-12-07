@@ -1,3 +1,4 @@
+import time
 import copy
 test_input = '''3,4,3,1,2'''
 
@@ -18,8 +19,11 @@ def step_fish(initial):
 
 
 fish = copy.deepcopy(start_set)
-for i in range(80):
+for i in range(256):
+    a = time.perf_counter()
     fish = step_fish(fish)
+    b = time.perf_counter()
     # print(f"After {i}: {fish}")
+    print(f'Step {i}: {b - a}')
 
 print(f'Total fish: {len(fish)}')
