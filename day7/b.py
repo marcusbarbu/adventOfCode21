@@ -10,10 +10,13 @@ print(f'{sv}')
 mean = sum(sv)//len(sv)
 print(f'{mean}')
 
-ncs = []
-for x in values:
-    diff = abs(mean - x)
-    c = (diff * (diff + 1)) / 2
-    ncs.append(c)
+costs = []
+for mean in range(mean - 1, mean + 2):
+    ncs = []
+    for x in values:
+        diff = abs(mean - x)
+        c = (diff * (diff + 1)) / 2
+        ncs.append(c)
+    costs.append(sum(ncs))
     
-print(f'{sum(ncs)}')
+print(f'Min: {min(costs)}')
