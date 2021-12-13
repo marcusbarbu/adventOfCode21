@@ -1,6 +1,8 @@
 from collections import defaultdict
 from typing import List
 import time
+from colorama import Fore, Style
+
 test_data = '''5483143223
 2745854711
 5264556173
@@ -11,6 +13,23 @@ test_data = '''5483143223
 6882881134
 4846848554
 5283751526'''
+
+COLOR_LOOKUP = {
+    0 : Fore.BLACK,
+    1 : Fore.BLUE,
+    2 : Fore.CYAN,
+    3 : Fore.LIGHTBLUE_EX,
+    4 : Fore.LIGHTCYAN_EX,
+    5 : Fore.LIGHTGREEN_EX,
+    6 : Fore.LIGHTMAGENTA_EX,
+    7 : Fore.LIGHTRED_EX,
+    8 : Fore.LIGHTYELLOW_EX,
+    9 : Fore.WHITE,
+    10 : Fore.WHITE,
+}
+
+for i in range(11):
+    print(f'Color: {COLOR_LOOKUP[i]}{i}{Style.RESET_ALL}')
 
 
 class Cave:
@@ -23,7 +42,7 @@ class Cave:
         self.total_flashes = 0
     
     def __repr__(self) -> str:
-        return '\n'.join(['  '.join([str(x) for x in r]) for r in self.rows])
+        return '\n'.join(['  '.join([COLOR_LOOKUP[x] + str(x) + Style.RESET_ALL for x in r]) for r in self.rows])
     
     def parse(self, raw):
         rl = raw.splitlines()
@@ -37,11 +56,11 @@ class Cave:
             for c in range(len(self.rows[r])):
                 self.rows[r][c] += 1
                 if self.rows[r][c] > 9:
-                    print(f'Original flash: {r}:{c}')
+                    # print(f'Original flash: {r}:{c}')
                     flashes.append((r,c))
-        print("Before flashes")
-        print(self)
-        print("ENDBefore flashes")
+        # print("Before flashes")
+        # print(self)
+        # print("ENDBefore flashes")
         return self.handle_flashes(flashes)
     
     def handle_flashes(self, flashes: List):
@@ -58,19 +77,19 @@ class Cave:
                         continue
                     else:
                         adjacents.append((nr,nc))
-            print(f'Adjacents for {r}:{c} -> {adjacents}')
+            # print(f'Adjacents for {r}:{c} -> {adjacents}')
             for ar, ac in adjacents:
                 if self.rows[ar][ac] > 9:
                     continue
                 self.rows[ar][ac] += 1
                 if self.rows[ar][ac] > 9:
-                    print(f'Secondary flash: {ar}:{ac}')
+                    # print(f'Secondary flash: {ar}:{ac}')
                     flashes.append((ar,ac))
             index += 1
         for r, c in flashes:
             self.rows[r][c] = 0
         self.total_flashes += len(flashes)
-        print(f'Single round len: {len(flashes)}')
+        # print(f'Single round len: {len(flashes)}')
         if len(flashes) == 100:
             return True
         return False
@@ -85,14 +104,14 @@ small_data = '''11111
 c = Cave(open('input','r').read())
 print(c.rows)
 
-i = 0
-res = False
-while not res:
-    res = c.step()
-    print(c)
-    print(f'After round {i}, {c.total_flashes} flashes')
-    # time.sleep(5)
-    i += 1
-    if res:
-        print(f"Round number: {i}")
-        break
+# i = 0
+# res = False
+# while not res:
+#     res = c.step()
+#     print(c)
+#     print(f'After round {i}, {c.total_flashes} flashes')
+#     # time.sleep(5)
+#     i += 1
+#     if res:
+#         print(f"Round number: {i}")
+#         break
