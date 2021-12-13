@@ -90,13 +90,16 @@ class CaveGraph:
             return 1, [[node]]
         
         for neighbor in node.neighbors:
-            if neighbor.small and neighbor in traversed and double_traversed or neighbor == self.start:
+            if neighbor == self.start:
                 continue
-            elif neighbor.small and neighbor in traversed and not double_traversed and neighbor != self.start:
-                nc, np = self.traverse(neighbor, {*traversed | set([node, neighbor])}, True)
-                count += nc
-                for n in np:
-                    paths.append([node] + n)
+            elif neighbor.small and neighbor in traversed:
+                if not double_traversed:
+                    nc, np = self.traverse(neighbor, {*traversed | set([node, neighbor])}, True)
+                    count += nc
+                    for n in np:
+                        paths.append([node] + n)
+                else:
+                    continue
             else:
                 nc, np = self.traverse(neighbor, {*traversed | set([node, neighbor])}, double_traversed)
                 count += nc
