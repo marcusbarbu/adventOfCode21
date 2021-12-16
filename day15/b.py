@@ -107,10 +107,9 @@ class ChitonCave:
                 ph.insert_or_update(pos, distances[pos])
         distances[start] = 0
         ph.insert_or_update(start, distances[start])
-        print(ph)
         while not ph.is_empty():
             cur, val = ph.pop()
-            print(f'Current node addr {cur}. Unvisited: {ph.remaining()}')
+            # print(f'Current node addr {cur}. Unvisited: {ph.remaining()}')
             neighbors = self.get_neighbors(cur[0],cur[1])
             for n in neighbors:
                 if not ph.contains(n):
@@ -160,6 +159,6 @@ cc = ChitonCave(open('input','r').read())
 fn = cc.get_neighbors(0,0)
 dists, prevs = cc.dijkstra()
 path, score = cc.find_path_score(dists, prevs)
-cc.print_board()
+cc.print_board(path=path)
 print(f'Final score: {score}')
 print(f'Secondary calc: {cc.secondary_calc(path)}')
