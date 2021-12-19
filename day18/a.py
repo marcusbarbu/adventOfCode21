@@ -56,51 +56,6 @@ class SnailTree:
         if root.right is not None:
             self.parse_node(root=root.right)
     
-    def node_to_out(self, root=None):
-        if root is None:
-            root = self.root
-        output = []
-        output.append('[')
-
-    
-    def find_left_uncle(self, node):
-        parent = node.parent
-        prev = node
-        while parent is not None:
-            if parent.left == prev: # We're on the left side, need to go higher
-                prev = parent
-                parent = parent.parent
-            else:
-                return parent.left
-        return None
-    
-    def find_right_aunt(self, node):
-        parent = node.parent
-        prev = node
-        while parent is not None:
-            if parent.right == prev: # We're on the right side, need to go higher
-                prev = parent
-                parent = parent.parent
-            else:
-                return parent.right
-        return None
-
-    def find_leftmost_leaf(self, node):
-        while not node.isleaf and node:
-            if node.left is not None:
-                node = node.left
-            else:
-                return node.right
-        return node
-
-    def find_rightmost_leaf(self, node):
-        while not node.isleaf and node:
-            if node.right is not None:
-                node = node.right
-            else:
-                return node.left
-        return node
-
     def find_next_left_leaf(self, node):
         current = node
         if current == self.root:
@@ -155,31 +110,14 @@ class SnailTree:
             left_leaf = self.find_next_left_leaf(node)
             right_leaf = self.find_next_right_leaf(node)
 
-            # left_node = self.find_left_uncle(node) # find the left node that's above us
-            # if left_node and left_node is not node: #if it exists, find it's right most leaf to add to
-            #     leaf = self.find_rightmost_leaf(left_node)
-            #     if leaf is node:
-            #         print('failing because identical node thingy left')
-            #     if leaf is not None and leaf is not node:
-            #         leaf.val += node.left.val
-            #         leaf.label = str(leaf.val)
-
-            # right_node = self.find_right_aunt(node)
-            # if right_node and right_node is not node:
-            #     leaf = self.find_leftmost_leaf(right_node)
-            #     if leaf is node:
-            #         print('failing because identical node thingy right')
-            #     if leaf is not None and leaf is not node:
-            #         leaf.val += node.right.val
-            #         leaf.label = str(leaf.val)
-
-            # turn this node into a 0 leaf
             if left_leaf:
                 left_leaf.val += node.left.val
                 left_leaf.label = str(left_leaf.val)
             if right_leaf:
                 right_leaf.val += node.right.val
                 right_leaf.label = str(right_leaf.val)
+
+            # turn this node into a 0 leaf
             node.isleaf = True
             node.val = 0
             node.label = '0'
@@ -221,10 +159,12 @@ class SnailTree:
         while running:
             exploded = self.find_explosions_once()
             if exploded:
-                print(f"exploded: {self.root}")
+                if dbg:
+                    print(f"exploded: {self.root}")
             if not exploded:
                 split = self.find_splits_once()
-                print(f"splitted: {self.root}")
+                if dbg:
+                    print(f"splitted: {self.root}")
             running = exploded or split
             if dbg:
                 pt(self.root)
@@ -241,9 +181,6 @@ class SnailTree:
             total += 2 * self.get_magnitude(node.right)
         return total
 
-
-test_input = '''[[[[4,0],[5,4]],[[7,7],[6,0]]],[[8,[7,7]],[[7,9],[5,0]]]]
-[[2,[[0,8],[3,4]]],[[[6,7],1],[7,[1,6]]]]'''
 
 test_input = '''[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]
 [7,[[[3,7],[4,3]],[[6,3],[8,8]]]]
